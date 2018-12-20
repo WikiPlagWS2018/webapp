@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { PlagPositionsService } from '../services/plag-positions.service';
 import { AlertService } from '../services/alert.service';
 import { Router } from '@angular/router';
@@ -10,12 +10,13 @@ import { PlagResponse } from '../models/responses/plag-response';
  * Capable of reading from .txt files
  */
 @Component({
-
   selector: 'app-input',
   templateUrl: './input.component.html'
 })
+
+
 export class InputComponent {
-  private inputText = '';
+  public inputText = '';
   private wordCount;
   private plagName = 'Meine Beschreibung';
   private wordString;
@@ -56,7 +57,6 @@ export class InputComponent {
   ) {
     this.storedRequests = this.localStorageManager.getRecentlyStoredRequests();
   }
-
   /**
    * Called when send button was clicked
    * Emits event to toggle components
@@ -100,7 +100,7 @@ export class InputComponent {
     this.alertService.showAlert(
       'Bitte mehr Text eingeben',
       'Bitte geben ' +
-      'Sie mindestes ' +
+      'Sie mindestens ' +
       this.minimumTextLength +
       ' Zeichen zum analysieren ein!',
       'warning'
@@ -205,16 +205,46 @@ export class InputComponent {
    * @param event
    */
   openFile(event: Event) {
-    const input: HTMLInputElement = <HTMLInputElement>event.target;
-    for (let index = 0; index < input.files.length; index++) {
-      const reader = new FileReader();
+    event.preventDefault();
+    const dragE: DragEvent = <DragEvent>event;
+    const file: File = dragE.dataTransfer.files[0];
+    const reader: FileReader = new FileReader();
+    console.log(file.type);
 
-      reader.onload = () => {
-        this.inputText = reader.result;
-      };
-
-      reader.readAsBinaryString(input.files[index]);
+    switch (file.type) {
+      case 'text/plain':
+        reader.onload = this.insertText;
+        reader.readAsText(file, 'UTF-8');
+        break;
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        break;
+      default:
+        break;
     }
+
+
+    // const input: HTMLInputElement = <HTMLInputElement>event.target;
+    // for (let index = 0; index < input.files.length; index++) {
+    //   const reader = new FileReader();
+    //
+    //   reader.onload = () => {
+    //     this.inputText = reader.result;
+    //   };
+    //
+    //   reader.readAsBinaryString(input.files[index]);
+    // }
+  }
+
+  onDragOver(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  insertText(loadedFile) {
+    const text: string = loadedFile.target.result;
+    this.inputText = 'Hello';
+    console.log(this.inputText);
+
   }
   /**
    * called when input of textarea changes
@@ -226,7 +256,7 @@ export class InputComponent {
     if (this.wordCount === 1) {
       this.wordString = 'Wort';
     } else {
-      this.wordString = 'W�rter''';
+      this.wordString = 'Wörter';
     }
   }
 }

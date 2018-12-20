@@ -100,7 +100,7 @@ export class OutputComponent {
     private pdfGenerator: PdfGeneratorService
   ) {
     // displayed while service is loading
-    this.tagged_input_text = 'L�dt ...'';
+    this.tagged_input_text = 'Lädt ...';
     // assigns plagResponse from json to local variable
     this.plagResponse = this.plagPositionsService.getPlagData();
     // In case user reload site in output route

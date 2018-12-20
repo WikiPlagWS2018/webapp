@@ -16,6 +16,7 @@ import { NavigationComponent } from './components/navigation.component';
 import { ChangeToInputComponentGuardService } from './services/change-to-input-component-guard.service';
 import { LocalStorageManagerService } from './services/local-storage-manager.service';
 import { PdfGeneratorService } from './services/pdf-generator.service';
+import { ParseDocxService } from './services/parse-docx.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { PdfGeneratorService } from './services/pdf-generator.service';
     TextShorteningService,
     ChangeToInputComponentGuardService,
     LocalStorageManagerService,
-    PdfGeneratorService
+    PdfGeneratorService,
+    ParseDocxService
   ],
   bootstrap: [AppComponent]
 })
