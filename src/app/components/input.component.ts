@@ -208,44 +208,43 @@ export class InputComponent {
     event.preventDefault();
     const dragE: DragEvent = <DragEvent>event;
     const file: File = dragE.dataTransfer.files[0];
-    const reader: FileReader = new FileReader();
-    console.log(file.type);
+    const textType = /text.*/;
+    if (file.type.match(textType)) {
+      const reader: FileReader = new FileReader();
+      console.log(file.type);
 
-    switch (file.type) {
-      case 'text/plain':
-        reader.onload = this.insertText;
-        reader.readAsText(file, 'UTF-8');
-        break;
-      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        break;
-      default:
-        break;
+      // switch (file.type) {
+      //   case 'text/plain':
+      reader.onload = () => {
+        this.inputText = reader.result;
+      }
+      reader.readAsText(file);
+      //   break;
+      // case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+
+      //   break;
+      // default:
+      //   break;
+      // }
     }
+    else {
+      this.alertTextType();
+    }
+  }
 
-
-    // const input: HTMLInputElement = <HTMLInputElement>event.target;
-    // for (let index = 0; index < input.files.length; index++) {
-    //   const reader = new FileReader();
-    //
-    //   reader.onload = () => {
-    //     this.inputText = reader.result;
-    //   };
-    //
-    //   reader.readAsBinaryString(input.files[index]);
-    // }
+  alertTextType() {
+    this.alertService.showAlert(
+      'File not supported! ',
+      'Please drop in a valid type of text',
+      'warning'
+    );
   }
 
   onDragOver(event: Event) {
     event.stopPropagation();
     event.preventDefault();
   }
-
-  insertText(loadedFile) {
-    const text: string = loadedFile.target.result;
-    this.inputText = 'Hello';
-    console.log(this.inputText);
-
-  }
+  
   /**
    * called when input of textarea changes
    * counts words of input
