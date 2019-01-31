@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component } from '@angular/core';
 import { PlagPositionsService } from '../services/plag-positions.service';
 import { AlertService } from '../services/alert.service';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { PlagResponse } from '../models/responses/plag-response';
 
 
 export class InputComponent {
-  public inputText = '';
+  inputText = '';
   private wordCount;
   private plagName = 'Meine Beschreibung';
   private wordString;
@@ -244,7 +244,13 @@ export class InputComponent {
     event.stopPropagation();
     event.preventDefault();
   }
-  
+
+  insertText(loadedFile) {
+    const text: string = loadedFile.target.result;
+    this.inputText = 'Hello';
+    console.log(this.inputText);
+
+  }
   /**
    * called when input of textarea changes
    * counts words of input

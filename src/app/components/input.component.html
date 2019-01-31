@@ -5,10 +5,10 @@
         <h1 class="textbox_h1">Eingabe</h1>
       </div>
 
-      <textarea class="textbox_textarea" width="100%" [(ngModel)]="inputText" (drop)="openFile($event)" (dragover)="onDragOver($event)" (keyup)="countWords(inputText)" placeholder="Text hier einfügen"
+      <textarea id="textarea" class="textbox_textarea" width="100%" [(ngModel)]="inputText" (drop)="openFile($event)" (dragover)="onDragOver($event)" (keyup)="countWords(inputText)" placeholder="Text hier einfügen"
         [ngModelOptions]="{standalone: true}" [ngClass]="textarea">
+        {{inputText}}
       </textarea>
-      <h1>{{inputText}}</h1>
 
       <div class="animated textboxViewHistory" [ngClass]="viewHistory">
         <img class="icon-view-history small-icon" [ngClass]="historyRotateViewHistoryIcon" (click)="toggleHistory()" src="../../assets/up.svg">
